@@ -685,8 +685,8 @@
           "dac_ramp_0": {
             "vlnv": "xilinx.com:module_ref:dac_ramp:1.0",
             "ip_revision": "1",
-            "xci_name": "pulse_gen_bd_dac_ramp_0_1",
-            "xci_path": "ip\\pulse_gen_bd_dac_ramp_0_1\\pulse_gen_bd_dac_ramp_0_1.xci",
+            "xci_name": "pulse_gen_bd_dac_ramp_0_0",
+            "xci_path": "ip\\pulse_gen_bd_dac_ramp_0_0\\pulse_gen_bd_dac_ramp_0_0.xci",
             "inst_hier_path": "PRNG_PULSE_GEN/dac_ramp_0",
             "reference_info": {
               "ref_type": "hdl",
@@ -722,8 +722,8 @@
           "SIGNAL_BRAM": {
             "vlnv": "xilinx.com:ip:blk_mem_gen:8.4",
             "ip_revision": "9",
-            "xci_name": "pulse_gen_bd_axi_bram_ctrl_0_bram_0",
-            "xci_path": "ip\\pulse_gen_bd_axi_bram_ctrl_0_bram_0\\pulse_gen_bd_axi_bram_ctrl_0_bram_0.xci",
+            "xci_name": "pulse_gen_bd_SIGNAL_BRAM_0",
+            "xci_path": "ip\\pulse_gen_bd_SIGNAL_BRAM_0\\pulse_gen_bd_SIGNAL_BRAM_0.xci",
             "inst_hier_path": "PRNG_PULSE_GEN/SIGNAL_BRAM",
             "parameters": {
               "Memory_Type": {
@@ -734,8 +734,8 @@
           "pileup_manager_0": {
             "vlnv": "xilinx.com:module_ref:pileup_manager:1.0",
             "ip_revision": "1",
-            "xci_name": "pulse_gen_bd_pileup_manager_0_1",
-            "xci_path": "ip\\pulse_gen_bd_pileup_manager_0_1\\pulse_gen_bd_pileup_manager_0_1.xci",
+            "xci_name": "pulse_gen_bd_pileup_manager_0_0",
+            "xci_path": "ip\\pulse_gen_bd_pileup_manager_0_0\\pulse_gen_bd_pileup_manager_0_0.xci",
             "inst_hier_path": "PRNG_PULSE_GEN/pileup_manager_0",
             "reference_info": {
               "ref_type": "hdl",
@@ -852,8 +852,8 @@
           "signal_send_0": {
             "vlnv": "xilinx.com:module_ref:signal_send:1.0",
             "ip_revision": "1",
-            "xci_name": "pulse_gen_bd_signal_send_0_8",
-            "xci_path": "ip\\pulse_gen_bd_signal_send_0_8\\pulse_gen_bd_signal_send_0_8.xci",
+            "xci_name": "pulse_gen_bd_signal_send_0_0",
+            "xci_path": "ip\\pulse_gen_bd_signal_send_0_0\\pulse_gen_bd_signal_send_0_0.xci",
             "inst_hier_path": "PRNG_PULSE_GEN/signal_send_0",
             "reference_info": {
               "ref_type": "hdl",
@@ -1105,8 +1105,8 @@
               "PRNG_EV_SAMPLING": {
                 "vlnv": "xilinx.com:module_ref:Xoshiro32bit:1.0",
                 "ip_revision": "1",
-                "xci_name": "pulse_gen_bd_prng_event_sampling_0",
-                "xci_path": "ip\\pulse_gen_bd_prng_event_sampling_0\\pulse_gen_bd_prng_event_sampling_0.xci",
+                "xci_name": "pulse_gen_bd_PRNG_EV_SAMPLING_0",
+                "xci_path": "ip\\pulse_gen_bd_PRNG_EV_SAMPLING_0\\pulse_gen_bd_PRNG_EV_SAMPLING_0.xci",
                 "inst_hier_path": "PRNG_PULSE_GEN/PRNG_SAMPLING/PRNG_EV_SAMPLING",
                 "reference_info": {
                   "ref_type": "hdl",
@@ -1336,8 +1336,8 @@
               "PRNG_AMP_SAMPLING": {
                 "vlnv": "xilinx.com:module_ref:Xoshiro32bit:1.0",
                 "ip_revision": "1",
-                "xci_name": "pulse_gen_bd_prng_amplitude_sampling_0",
-                "xci_path": "ip\\pulse_gen_bd_prng_amplitude_sampling_0\\pulse_gen_bd_prng_amplitude_sampling_0.xci",
+                "xci_name": "pulse_gen_bd_PRNG_AMP_SAMPLING_0",
+                "xci_path": "ip\\pulse_gen_bd_PRNG_AMP_SAMPLING_0\\pulse_gen_bd_PRNG_AMP_SAMPLING_0.xci",
                 "inst_hier_path": "PRNG_PULSE_GEN/PRNG_SAMPLING/PRNG_AMP_SAMPLING",
                 "reference_info": {
                   "ref_type": "hdl",
@@ -1395,8 +1395,8 @@
               "CDF_BRAM": {
                 "vlnv": "xilinx.com:ip:blk_mem_gen:8.4",
                 "ip_revision": "9",
-                "xci_name": "pulse_gen_bd_blk_mem_gen_0_0",
-                "xci_path": "ip\\pulse_gen_bd_blk_mem_gen_0_0\\pulse_gen_bd_blk_mem_gen_0_0.xci",
+                "xci_name": "pulse_gen_bd_CDF_BRAM_0",
+                "xci_path": "ip\\pulse_gen_bd_CDF_BRAM_0\\pulse_gen_bd_CDF_BRAM_0.xci",
                 "inst_hier_path": "PRNG_PULSE_GEN/PRNG_SAMPLING/CDF_BRAM",
                 "parameters": {
                   "Memory_Type": {
