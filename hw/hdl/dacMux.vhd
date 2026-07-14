@@ -15,7 +15,7 @@ entity dacMux is
       x2   : in  STD_LOGIC_VECTOR(DATA_BUS_WIDTH - 1 downto 0);
       x3   : in  STD_LOGIC_VECTOR(DATA_BUS_WIDTH - 1 downto 0);
       x4   : in  STD_LOGIC_VECTOR(DATA_BUS_WIDTH - 1 downto 0);
-      x5   : in  STD_LOGIC_VECTOR(DATA_BUS_WIDTH - 1 downto 0);
+      --x5   : in  STD_LOGIC_VECTOR(DATA_BUS_WIDTH - 1 downto 0);
      
       y    : out STD_LOGIC_VECTOR(DATA_BUS_WIDTH - 1 downto 0)
     );
@@ -33,7 +33,7 @@ begin
         when "010" => y <= x2;
         when "011" => y <= x3;
         when "100" => y <= x4;
-        when "101" => y <= x5;
+        --when "101" => y <= x5;
         
         when others => y <= x0;
     end case;

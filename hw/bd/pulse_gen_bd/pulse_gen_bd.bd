@@ -75,7 +75,8 @@
         "axi_gpio_1": ""
       },
       "axi_bram_ctrl_0": "",
-      "axi_bram_ctrl_1": ""
+      "axi_bram_ctrl_1": "",
+      "proc_sys_reset_2": ""
     },
     "ports": {
       "fan_en_b": {
@@ -478,11 +479,6 @@
             "left": "13",
             "right": "0"
           },
-          "x5": {
-            "direction": "I",
-            "left": "13",
-            "right": "0"
-          },
           "y": {
             "direction": "O",
             "left": "13",
@@ -747,6 +743,11 @@
                 "mode": "Master",
                 "vlnv_bus_definition": "xilinx.com:interface:bram:1.0",
                 "vlnv": "xilinx.com:interface:bram_rtl:1.0",
+                "parameters": {
+                  "MASTER_TYPE": {
+                    "value": "BRAM_CTRL"
+                  }
+                },
                 "port_maps": {
                   "EN": {
                     "physical_name": "bram_en",
@@ -1277,6 +1278,11 @@
                     "mode": "Master",
                     "vlnv_bus_definition": "xilinx.com:interface:bram:1.0",
                     "vlnv": "xilinx.com:interface:bram_rtl:1.0",
+                    "parameters": {
+                      "MASTER_TYPE": {
+                        "value": "BRAM_CTRL"
+                      }
+                    },
                     "port_maps": {
                       "EN": {
                         "physical_name": "bram_en",
@@ -6432,6 +6438,13 @@
             "value": "1"
           }
         }
+      },
+      "proc_sys_reset_2": {
+        "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
+        "ip_revision": "16",
+        "xci_name": "pulse_gen_bd_proc_sys_reset_2_0",
+        "xci_path": "ip\\pulse_gen_bd_proc_sys_reset_2_0\\pulse_gen_bd_proc_sys_reset_2_0.xci",
+        "inst_hier_path": "proc_sys_reset_2"
       }
     },
     "interface_nets": {
@@ -6503,6 +6516,13 @@
           "dac_data"
         ]
       },
+      "aresetn_1": {
+        "ports": [
+          "proc_sys_reset_2/peripheral_aresetn",
+          "PRNG_PULSE_GEN/aresetn",
+          "CDC/s_aresetn"
+        ]
+      },
       "axi_gpio_0_gpio2_io_o": {
         "ports": [
           "gpio_control/gpio2_io_o",
@@ -6557,7 +6577,8 @@
           "adc_clk",
           "dac_clk",
           "led_blink_0/clk",
-          "PRNG_PULSE_GEN/clk"
+          "PRNG_PULSE_GEN/clk",
+          "proc_sys_reset_2/slowest_sync_clk"
         ]
       },
       "dacMux_0_y": {
@@ -6605,7 +6626,6 @@
       "proc_sys_reset_1_peripheral_aresetn": {
         "ports": [
           "proc_sys_reset_1/peripheral_aresetn",
-          "CDC/s_aresetn",
           "ps8_0_axi_periph/S00_ARESETN",
           "ps8_0_axi_periph/M00_ARESETN",
           "ps8_0_axi_periph/M01_ARESETN",
@@ -6616,7 +6636,6 @@
           "ps8_0_axi_periph/M06_ARESETN",
           "ps8_0_axi_periph/ARESETN",
           "ps8_0_axi_periph/M07_ARESETN",
-          "PRNG_PULSE_GEN/aresetn",
           "ps8_0_axi_periph/M08_ARESETN",
           "ps8_0_axi_periph/M09_ARESETN",
           "gpio_control/s_axi_aresetn",
@@ -6662,7 +6681,8 @@
           "clk_wiz_0/resetn",
           "proc_sys_reset_0/ext_reset_in",
           "proc_sys_reset_1/ext_reset_in",
-          "rst_ps8_0_99M/ext_reset_in"
+          "rst_ps8_0_99M/ext_reset_in",
+          "proc_sys_reset_2/ext_reset_in"
         ]
       },
       "zynq_proc_sys_pl_clk0": {
