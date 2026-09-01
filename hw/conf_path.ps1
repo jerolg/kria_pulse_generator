@@ -1,0 +1,1 @@
+$env:Path += ";C:\Xilinx\Vivado\2024.2\bin;C:\Xilinx\Vitis\2024.2\bin;C:\Program Files\Git\bin"
