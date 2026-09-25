@@ -5265,7 +5265,7 @@
       },
       "rnpg_pulse_gen_0": {
         "vlnv": "gicm_udea:user:rnpg_pulse_gen:1.0",
-        "ip_revision": "3",
+        "ip_revision": "4",
         "xci_name": "pulse_gen_bd_rnpg_pulse_gen_0_0",
         "xci_path": "ip\\pulse_gen_bd_rnpg_pulse_gen_0_0\\pulse_gen_bd_rnpg_pulse_gen_0_0.xci",
         "inst_hier_path": "rnpg_pulse_gen_0"
