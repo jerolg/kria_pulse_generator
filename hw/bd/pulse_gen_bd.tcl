@@ -46,7 +46,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# dacMux, led_blink, dac_ramp, pileup_manager, signal_send, signal_send, pileup_adder, signal_send, Xoshiro32bit, bernoulli_trial, rand_to_channel, Xoshiro32bit
+# dacMux, led_blink
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -72,7 +72,7 @@ set run_remote_bd_flow 1
 if { $run_remote_bd_flow == 1 } {
   # Set the reference directory for source file relative paths (by default 
   # the value is script directory path)
-  set origin_dir ./bd
+  set origin_dir .
 
   # Use origin directory path location variable, if specified in the tcl shell
   if { [info exists ::origin_dir_loc] } {
@@ -141,11 +141,10 @@ xilinx.com:ip:util_vector_logic:2.0\
 xilinx.com:ip:zynq_ultra_ps_e:3.5\
 xilinx.com:ip:proc_sys_reset:5.0\
 xilinx.com:ip:axi_bram_ctrl:4.1\
+gicm_udea:user:rnpg_pulse_gen:1.0\
 xilinx.com:ip:fifo_generator:13.2\
 xilinx.com:ip:xlconstant:1.1\
-xilinx.com:ip:blk_mem_gen:8.4\
 xilinx.com:ip:axi_gpio:2.0\
-xilinx.com:ip:c_shift_ram:12.0\
 "
 
    set list_ips_missing ""
@@ -173,16 +172,6 @@ if { $bCheckModules == 1 } {
    set list_check_mods "\ 
 dacMux\
 led_blink\
-dac_ramp\
-pileup_manager\
-signal_send\
-signal_send\
-pileup_adder\
-signal_send\
-Xoshiro32bit\
-bernoulli_trial\
-rand_to_channel\
-Xoshiro32bit\
 "
 
    set list_mods_missing ""
@@ -210,173 +199,6 @@ if { $bCheckIPsPassed != 1 } {
 # DESIGN PROCs
 ##################################################################
 
-
-# Hierarchical cell: PRNG_SAMPLING
-proc create_hier_cell_PRNG_SAMPLING { parentCell nameHier } {
-
-  variable script_folder
-
-  if { $parentCell eq "" || $nameHier eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2092 -severity "ERROR" "create_hier_cell_PRNG_SAMPLING() - Empty argument(s)!"}
-     return
-  }
-
-  # Get object for parentCell
-  set parentObj [get_bd_cells $parentCell]
-  if { $parentObj == "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2090 -severity "ERROR" "Unable to find parent cell <$parentCell>!"}
-     return
-  }
-
-  # Make sure parentObj is hier blk
-  set parentType [get_property TYPE $parentObj]
-  if { $parentType ne "hier" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2091 -severity "ERROR" "Parent <$parentObj> has TYPE = <$parentType>. Expected to be <hier>."}
-     return
-  }
-
-  # Save current instance; Restore later
-  set oldCurInst [current_bd_instance .]
-
-  # Set parent object as current
-  current_bd_instance $parentObj
-
-  # Create cell and set as current instance
-  set hier_obj [create_bd_cell -type hier $nameHier]
-  current_bd_instance $hier_obj
-
-  # Create interface pins
-  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:bram_rtl:1.0 BRAM_PORTA
-
-
-  # Create pins
-  create_bd_pin -dir I -type clk clk
-  create_bd_pin -dir I -type rst aresetn
-  create_bd_pin -dir I en
-  create_bd_pin -dir I -from 31 -to 0 prob_thr
-  create_bd_pin -dir I -from 31 -to 0 target_events
-  create_bd_pin -dir O done
-  create_bd_pin -dir I -from 31 -to 0 addr_lim
-  create_bd_pin -dir O -from 31 -to 0 cdf_data
-  create_bd_pin -dir O -from 0 -to 0 -type data pulse_trig
-
-  # Create instance: PRNG_EV_SAMPLING, and set properties
-  set block_name Xoshiro32bit
-  set block_cell_name PRNG_EV_SAMPLING
-  if { [catch {set PRNG_EV_SAMPLING [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $PRNG_EV_SAMPLING eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: bernoulli_trial_0, and set properties
-  set block_name bernoulli_trial
-  set block_cell_name bernoulli_trial_0
-  if { [catch {set bernoulli_trial_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $bernoulli_trial_0 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: xlconstant_0, and set properties
-  set xlconstant_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_0 ]
-  set_property -dict [list \
-    CONFIG.CONST_VAL {24197857200151252728969465425480056815} \
-    CONFIG.CONST_WIDTH {128} \
-  ] $xlconstant_0
-
-
-  # Create instance: xlconstant_1, and set properties
-  set xlconstant_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_1 ]
-  set_property -dict [list \
-    CONFIG.CONST_VAL {24197857200151252728969465429440056815} \
-    CONFIG.CONST_WIDTH {128} \
-  ] $xlconstant_1
-
-
-  # Create instance: rand_to_channel_0, and set properties
-  set block_name rand_to_channel
-  set block_cell_name rand_to_channel_0
-  if { [catch {set rand_to_channel_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $rand_to_channel_0 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: PRNG_AMP_SAMPLING, and set properties
-  set block_name Xoshiro32bit
-  set block_cell_name PRNG_AMP_SAMPLING
-  if { [catch {set PRNG_AMP_SAMPLING [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $PRNG_AMP_SAMPLING eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: CDF_BRAM, and set properties
-  set CDF_BRAM [ create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 CDF_BRAM ]
-  set_property CONFIG.Memory_Type {True_Dual_Port_RAM} $CDF_BRAM
-
-
-  # Create instance: c_shift_ram_0, and set properties
-  set c_shift_ram_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:c_shift_ram:12.0 c_shift_ram_0 ]
-  set_property -dict [list \
-    CONFIG.Depth {1} \
-    CONFIG.Width {1} \
-  ] $c_shift_ram_0
-
-
-  # Create interface connections
-  connect_bd_intf_net -intf_net Conn2 [get_bd_intf_pins BRAM_PORTA] [get_bd_intf_pins CDF_BRAM/BRAM_PORTA]
-  connect_bd_intf_net -intf_net rand_to_channel_0_BRAM_PORT [get_bd_intf_pins rand_to_channel_0/BRAM_PORT] [get_bd_intf_pins CDF_BRAM/BRAM_PORTB]
-
-  # Create port connections
-  connect_bd_net -net Net  [get_bd_pins bernoulli_trial_0/ev_flag] \
-  [get_bd_pins c_shift_ram_0/D] \
-  [get_bd_pins rand_to_channel_0/ev_flag]
-  connect_bd_net -net Net3  [get_bd_pins CDF_BRAM/doutb] \
-  [get_bd_pins cdf_data]
-  connect_bd_net -net Xoshiro32bit_0_Data  [get_bd_pins PRNG_AMP_SAMPLING/Data] \
-  [get_bd_pins rand_to_channel_0/rand_in]
-  connect_bd_net -net Xoshiro32bit_1_Data  [get_bd_pins PRNG_EV_SAMPLING/Data] \
-  [get_bd_pins bernoulli_trial_0/rnd]
-  connect_bd_net -net bernoulli_trial_0_done  [get_bd_pins bernoulli_trial_0/done] \
-  [get_bd_pins done]
-  connect_bd_net -net c_shift_ram_0_Q  [get_bd_pins c_shift_ram_0/Q] \
-  [get_bd_pins pulse_trig]
-  connect_bd_net -net clk_wiz_0_clk_out3  [get_bd_pins clk] \
-  [get_bd_pins c_shift_ram_0/CLK] \
-  [get_bd_pins PRNG_AMP_SAMPLING/Clk] \
-  [get_bd_pins bernoulli_trial_0/clk] \
-  [get_bd_pins rand_to_channel_0/clk] \
-  [get_bd_pins PRNG_EV_SAMPLING/Clk]
-  connect_bd_net -net en_0_1  [get_bd_pins en] \
-  [get_bd_pins bernoulli_trial_0/en]
-  connect_bd_net -net max_val_1  [get_bd_pins addr_lim] \
-  [get_bd_pins rand_to_channel_0/addr_lim]
-  connect_bd_net -net prob_thr_0_1  [get_bd_pins prob_thr] \
-  [get_bd_pins bernoulli_trial_0/prob_thr]
-  connect_bd_net -net proc_sys_reset_1_peripheral_aresetn  [get_bd_pins aresetn] \
-  [get_bd_pins PRNG_AMP_SAMPLING/aresetn] \
-  [get_bd_pins bernoulli_trial_0/aresetn] \
-  [get_bd_pins PRNG_EV_SAMPLING/aresetn]
-  connect_bd_net -net target_events_0_1  [get_bd_pins target_events] \
-  [get_bd_pins bernoulli_trial_0/target_events]
-  connect_bd_net -net xlconstant_0_dout  [get_bd_pins xlconstant_0/dout] \
-  [get_bd_pins PRNG_AMP_SAMPLING/ResetVal]
-  connect_bd_net -net xlconstant_1_dout  [get_bd_pins xlconstant_1/dout] \
-  [get_bd_pins PRNG_EV_SAMPLING/ResetVal]
-
-  # Restore current instance
-  current_bd_instance $oldCurInst
-}
 
 # Hierarchical cell: gpio_control
 proc create_hier_cell_gpio_control { parentCell nameHier } {
@@ -510,206 +332,6 @@ proc create_hier_cell_gpio_control { parentCell nameHier } {
   [get_bd_pins axi_gpio_0/s_axi_aresetn]
   connect_bd_net -net target_events_1  [get_bd_pins axi_gpio_1/gpio2_io_o] \
   [get_bd_pins gpio2_io_o1]
-
-  # Restore current instance
-  current_bd_instance $oldCurInst
-}
-
-# Hierarchical cell: PRNG_PULSE_GEN
-proc create_hier_cell_PRNG_PULSE_GEN { parentCell nameHier } {
-
-  variable script_folder
-
-  if { $parentCell eq "" || $nameHier eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2092 -severity "ERROR" "create_hier_cell_PRNG_PULSE_GEN() - Empty argument(s)!"}
-     return
-  }
-
-  # Get object for parentCell
-  set parentObj [get_bd_cells $parentCell]
-  if { $parentObj == "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2090 -severity "ERROR" "Unable to find parent cell <$parentCell>!"}
-     return
-  }
-
-  # Make sure parentObj is hier blk
-  set parentType [get_property TYPE $parentObj]
-  if { $parentType ne "hier" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2091 -severity "ERROR" "Parent <$parentObj> has TYPE = <$parentType>. Expected to be <hier>."}
-     return
-  }
-
-  # Save current instance; Restore later
-  set oldCurInst [current_bd_instance .]
-
-  # Set parent object as current
-  current_bd_instance $parentObj
-
-  # Create cell and set as current instance
-  set hier_obj [create_bd_cell -type hier $nameHier]
-  current_bd_instance $hier_obj
-
-  # Create interface pins
-  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:bram_rtl:1.0 BRAM_PORTA
-
-  create_bd_intf_pin -mode Slave -vlnv xilinx.com:interface:bram_rtl:1.0 BRAM_PORTA1
-
-
-  # Create pins
-  create_bd_pin -dir I -type clk clk
-  create_bd_pin -dir I -type rst aresetn
-  create_bd_pin -dir O done
-  create_bd_pin -dir I -from 31 -to 0 target_events
-  create_bd_pin -dir I -from 31 -to 0 prob_thr
-  create_bd_pin -dir I en
-  create_bd_pin -dir O -from 13 -to 0 ramp
-  create_bd_pin -dir O -from 13 -to 0 bram_sig
-  create_bd_pin -dir I -from 31 -to 0 addr_lim
-  create_bd_pin -dir I -from 0 -to 0 update_trigger
-
-  # Create instance: dac_ramp_0, and set properties
-  set block_name dac_ramp
-  set block_cell_name dac_ramp_0
-  if { [catch {set dac_ramp_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $dac_ramp_0 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: SIGNAL_BRAM, and set properties
-  set SIGNAL_BRAM [ create_bd_cell -type ip -vlnv xilinx.com:ip:blk_mem_gen:8.4 SIGNAL_BRAM ]
-  set_property CONFIG.Memory_Type {True_Dual_Port_RAM} $SIGNAL_BRAM
-
-
-  # Create instance: pileup_manager_0, and set properties
-  set block_name pileup_manager
-  set block_cell_name pileup_manager_0
-  if { [catch {set pileup_manager_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $pileup_manager_0 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: signal_send_0, and set properties
-  set block_name signal_send
-  set block_cell_name signal_send_0
-  if { [catch {set signal_send_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $signal_send_0 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: signal_send_1, and set properties
-  set block_name signal_send
-  set block_cell_name signal_send_1
-  if { [catch {set signal_send_1 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $signal_send_1 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: pileup_adder_0, and set properties
-  set block_name pileup_adder
-  set block_cell_name pileup_adder_0
-  if { [catch {set pileup_adder_0 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $pileup_adder_0 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create instance: PRNG_SAMPLING
-  create_hier_cell_PRNG_SAMPLING $hier_obj PRNG_SAMPLING
-
-  # Create instance: signal_send_2, and set properties
-  set block_name signal_send
-  set block_cell_name signal_send_2
-  if { [catch {set signal_send_2 [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   } elseif { $signal_send_2 eq "" } {
-     catch {common::send_gid_msg -ssname BD::TCL -id 2096 -severity "ERROR" "Unable to referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
-     return 1
-   }
-  
-  # Create interface connections
-  connect_bd_intf_net -intf_net Conn1 [get_bd_intf_pins SIGNAL_BRAM/BRAM_PORTA] [get_bd_intf_pins BRAM_PORTA]
-  connect_bd_intf_net -intf_net Conn2 [get_bd_intf_pins PRNG_SAMPLING/BRAM_PORTA] [get_bd_intf_pins BRAM_PORTA1]
-  connect_bd_intf_net -intf_net pileup_manager_0_BRAM_PORT [get_bd_intf_pins pileup_manager_0/BRAM_PORT] [get_bd_intf_pins SIGNAL_BRAM/BRAM_PORTB]
-
-  # Create port connections
-  connect_bd_net -net Net3  [get_bd_pins PRNG_SAMPLING/cdf_data] \
-  [get_bd_pins signal_send_0/amplitude] \
-  [get_bd_pins signal_send_1/amplitude] \
-  [get_bd_pins signal_send_2/amplitude]
-  connect_bd_net -net bernoulli_trial_0_done  [get_bd_pins PRNG_SAMPLING/done] \
-  [get_bd_pins done]
-  connect_bd_net -net c_shift_ram_0_Q  [get_bd_pins PRNG_SAMPLING/pulse_trig] \
-  [get_bd_pins pileup_manager_0/pulse_trig_in]
-  connect_bd_net -net clk_wiz_0_clk_out3  [get_bd_pins clk] \
-  [get_bd_pins dac_ramp_0/clk] \
-  [get_bd_pins PRNG_SAMPLING/clk] \
-  [get_bd_pins pileup_manager_0/clk] \
-  [get_bd_pins pileup_adder_0/clk] \
-  [get_bd_pins signal_send_0/clk] \
-  [get_bd_pins signal_send_1/clk] \
-  [get_bd_pins signal_send_2/clk]
-  connect_bd_net -net dac_ramp_0_dac_data  [get_bd_pins dac_ramp_0/dac_data] \
-  [get_bd_pins ramp]
-  connect_bd_net -net en_0_1  [get_bd_pins en] \
-  [get_bd_pins PRNG_SAMPLING/en]
-  connect_bd_net -net max_val_1  [get_bd_pins addr_lim] \
-  [get_bd_pins PRNG_SAMPLING/addr_lim]
-  connect_bd_net -net pileup_adder_0_dac_out  [get_bd_pins pileup_adder_0/dac_out] \
-  [get_bd_pins bram_sig]
-  connect_bd_net -net pileup_manager_0_data_out  [get_bd_pins pileup_manager_0/data_out] \
-  [get_bd_pins signal_send_0/data_in] \
-  [get_bd_pins signal_send_1/data_in] \
-  [get_bd_pins signal_send_2/data_in]
-  connect_bd_net -net pileup_manager_0_data_valid  [get_bd_pins pileup_manager_0/data_valid] \
-  [get_bd_pins signal_send_0/data_valid] \
-  [get_bd_pins signal_send_1/data_valid] \
-  [get_bd_pins signal_send_2/data_valid]
-  connect_bd_net -net pileup_manager_0_trig_ch1  [get_bd_pins pileup_manager_0/trig_ch1] \
-  [get_bd_pins signal_send_0/trigger]
-  connect_bd_net -net pileup_manager_0_trig_ch2  [get_bd_pins pileup_manager_0/trig_ch2] \
-  [get_bd_pins signal_send_1/trigger]
-  connect_bd_net -net pileup_manager_0_trig_ch3  [get_bd_pins pileup_manager_0/trig_ch3] \
-  [get_bd_pins signal_send_2/trigger]
-  connect_bd_net -net prob_thr_0_1  [get_bd_pins prob_thr] \
-  [get_bd_pins PRNG_SAMPLING/prob_thr]
-  connect_bd_net -net proc_sys_reset_1_peripheral_aresetn  [get_bd_pins aresetn] \
-  [get_bd_pins PRNG_SAMPLING/aresetn] \
-  [get_bd_pins pileup_manager_0/rst_n] \
-  [get_bd_pins pileup_adder_0/rst_n] \
-  [get_bd_pins signal_send_0/aresetn] \
-  [get_bd_pins signal_send_1/aresetn] \
-  [get_bd_pins signal_send_2/aresetn]
-  connect_bd_net -net signal_send_0_busy  [get_bd_pins signal_send_0/busy] \
-  [get_bd_pins pileup_manager_0/busy_ch1]
-  connect_bd_net -net signal_send_0_dac_out  [get_bd_pins signal_send_0/data_out] \
-  [get_bd_pins pileup_adder_0/ch1_in]
-  connect_bd_net -net signal_send_1_busy  [get_bd_pins signal_send_1/busy] \
-  [get_bd_pins pileup_manager_0/busy_ch2]
-  connect_bd_net -net signal_send_1_dac_out  [get_bd_pins signal_send_1/data_out] \
-  [get_bd_pins pileup_adder_0/ch2_in]
-  connect_bd_net -net signal_send_2_busy  [get_bd_pins signal_send_2/busy] \
-  [get_bd_pins pileup_manager_0/busy_ch3]
-  connect_bd_net -net signal_send_2_data_out  [get_bd_pins signal_send_2/data_out] \
-  [get_bd_pins pileup_adder_0/ch3_in]
-  connect_bd_net -net target_events_0_1  [get_bd_pins target_events] \
-  [get_bd_pins PRNG_SAMPLING/target_events]
-  connect_bd_net -net update_trigger_1  [get_bd_pins update_trigger] \
-  [get_bd_pins pileup_manager_0/update_trigger]
 
   # Restore current instance
   current_bd_instance $oldCurInst
@@ -961,9 +583,6 @@ proc create_root_design { parentCell } {
      return 1
    }
   
-  # Create instance: PRNG_PULSE_GEN
-  create_hier_cell_PRNG_PULSE_GEN [current_bd_instance .] PRNG_PULSE_GEN
-
   # Create instance: zynq_ultra_ps_e_0, and set properties
   set zynq_ultra_ps_e_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:zynq_ultra_ps_e:3.5 zynq_ultra_ps_e_0 ]
   set_property -dict [list \
@@ -1569,11 +1188,8 @@ MIO#GPIO0 MIO#GPIO0 MIO#GPIO0 MIO#GPIO0 MIO#GPIO0 MIO#GPIO0 MIO#GPIO0 MIO#GPIO0 
     CONFIG.PSU__DDRC__VREF {1} \
     CONFIG.PSU__DDR_HIGH_ADDRESS_GUI_ENABLE {1} \
     CONFIG.PSU__DDR_QOS_ENABLE {0} \
-    CONFIG.PSU__DDR_QOS_HP1_WRQOS {} \
-    CONFIG.PSU__DDR_QOS_HP2_RDQOS {} \
-    CONFIG.PSU__DDR_QOS_HP2_WRQOS {} \
-    CONFIG.PSU__DDR_QOS_HP3_RDQOS {} \
-    CONFIG.PSU__DDR_QOS_HP3_WRQOS {} \
+    CONFIG.PSU__DDR_QOS_HP0_RDQOS {} \
+    CONFIG.PSU__DDR_QOS_HP0_WRQOS {} \
     CONFIG.PSU__DDR_SW_REFRESH_ENABLED {1} \
     CONFIG.PSU__DDR__INTERFACE__FREQMHZ {600.000} \
     CONFIG.PSU__DEVICE_TYPE {EV} \
@@ -2001,9 +1617,15 @@ Port;FD4A0000;FD4AFFFF;0|FPD;DPDMA;FD4C0000;FD4CFFFF;0|FPD;DDR_XMPU5_CFG;FD05000
   set_property CONFIG.SINGLE_PORT_BRAM {1} $axi_bram_ctrl_1
 
 
+  # Create instance: proc_sys_reset_2, and set properties
+  set proc_sys_reset_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 proc_sys_reset_2 ]
+
+  # Create instance: rnpg_pulse_gen_0, and set properties
+  set rnpg_pulse_gen_0 [ create_bd_cell -type ip -vlnv gicm_udea:user:rnpg_pulse_gen:1.0 rnpg_pulse_gen_0 ]
+
   # Create interface connections
-  connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTA] [get_bd_intf_pins PRNG_PULSE_GEN/BRAM_PORTA]
-  connect_bd_intf_net -intf_net axi_bram_ctrl_1_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_1/BRAM_PORTA] [get_bd_intf_pins PRNG_PULSE_GEN/BRAM_PORTA1]
+  connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTA] [get_bd_intf_pins rnpg_pulse_gen_0/SIGNAL_BRAM]
+  connect_bd_intf_net -intf_net axi_bram_ctrl_1_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_1/BRAM_PORTA] [get_bd_intf_pins rnpg_pulse_gen_0/CHA_BRAM]
   connect_bd_intf_net -intf_net ps8_0_axi_periph_M00_AXI [get_bd_intf_pins ps8_0_axi_periph/M00_AXI] [get_bd_intf_pins axi_bram_ctrl_0/S_AXI]
   connect_bd_intf_net -intf_net ps8_0_axi_periph_M02_AXI [get_bd_intf_pins ps8_0_axi_periph/M02_AXI] [get_bd_intf_pins axi_bram_ctrl_1/S_AXI]
   connect_bd_intf_net -intf_net ps8_0_axi_periph_M08_AXI [get_bd_intf_pins ps8_0_axi_periph/M08_AXI] [get_bd_intf_pins gpio_control/S_AXI1]
@@ -2017,10 +1639,13 @@ Port;FD4A0000;FD4AFFFF;0|FPD;DPDMA;FD4C0000;FD4CFFFF;0|FPD;DDR_XMPU5_CFG;FD05000
   [get_bd_pins dacMux/x0]
   connect_bd_net -net CDC_dac_data  [get_bd_pins CDC/dac_data] \
   [get_bd_ports dac_data]
+  connect_bd_net -net aresetn_1  [get_bd_pins proc_sys_reset_2/peripheral_aresetn] \
+  [get_bd_pins CDC/s_aresetn] \
+  [get_bd_pins rnpg_pulse_gen_0/aresetn]
   connect_bd_net -net axi_gpio_0_gpio2_io_o  [get_bd_pins gpio_control/gpio2_io_o] \
   [get_bd_pins dacMux/sel]
   connect_bd_net -net axi_gpio_1_gpio_io_o  [get_bd_pins gpio_control/gpio_io_o3] \
-  [get_bd_pins PRNG_PULSE_GEN/prob_thr]
+  [get_bd_pins rnpg_pulse_gen_0/prob_thr]
   connect_bd_net -net axi_gpio_2_gpio_io_o  [get_bd_pins gpio_control/gpio_io_o1] \
   [get_bd_pins dacMux/x3]
   connect_bd_net -net clk_wiz_0_clk_out1  [get_bd_pins clk_wiz_0/clk_out1] \
@@ -2049,23 +1674,19 @@ Port;FD4A0000;FD4AFFFF;0|FPD;DPDMA;FD4C0000;FD4CFFFF;0|FPD;DDR_XMPU5_CFG;FD05000
   [get_bd_ports adc_clk] \
   [get_bd_ports dac_clk] \
   [get_bd_pins led_blink_0/clk] \
-  [get_bd_pins PRNG_PULSE_GEN/clk]
+  [get_bd_pins proc_sys_reset_2/slowest_sync_clk] \
+  [get_bd_pins rnpg_pulse_gen_0/clk]
   connect_bd_net -net dacMux_0_y  [get_bd_pins dacMux/y] \
   [get_bd_pins CDC/dac_data_mux]
   connect_bd_net -net en_1  [get_bd_pins gpio_control/gpio_io_o] \
-  [get_bd_pins PRNG_PULSE_GEN/en]
-  connect_bd_net -net gpio_control_gpio2_io_o2  [get_bd_pins gpio_control/gpio2_io_o2] \
-  [get_bd_pins PRNG_PULSE_GEN/update_trigger]
-  connect_bd_net -net gpio_control_gpio_io_o2  [get_bd_pins gpio_control/gpio_io_o2] \
-  [get_bd_pins PRNG_PULSE_GEN/addr_lim]
-  connect_bd_net -net prng_pulse_generator_bram_sig  [get_bd_pins PRNG_PULSE_GEN/bram_sig] \
-  [get_bd_pins dacMux/x4]
-  connect_bd_net -net prng_pulse_generator_dac_data  [get_bd_pins PRNG_PULSE_GEN/ramp] \
-  [get_bd_pins dacMux/x2]
-  connect_bd_net -net prng_pulse_generator_done  [get_bd_pins PRNG_PULSE_GEN/done] \
+  [get_bd_pins rnpg_pulse_gen_0/ena]
+  connect_bd_net -net gpio2_io_i_1  [get_bd_pins rnpg_pulse_gen_0/done_ev] \
   [get_bd_pins gpio_control/gpio2_io_i]
+  connect_bd_net -net gpio_control_gpio2_io_o2  [get_bd_pins gpio_control/gpio2_io_o2] \
+  [get_bd_pins rnpg_pulse_gen_0/pulse_trig]
+  connect_bd_net -net gpio_control_gpio_io_o2  [get_bd_pins gpio_control/gpio_io_o2] \
+  [get_bd_pins rnpg_pulse_gen_0/cha_len]
   connect_bd_net -net proc_sys_reset_1_peripheral_aresetn  [get_bd_pins proc_sys_reset_1/peripheral_aresetn] \
-  [get_bd_pins CDC/s_aresetn] \
   [get_bd_pins ps8_0_axi_periph/S00_ARESETN] \
   [get_bd_pins ps8_0_axi_periph/M00_ARESETN] \
   [get_bd_pins ps8_0_axi_periph/M01_ARESETN] \
@@ -2076,17 +1697,20 @@ Port;FD4A0000;FD4AFFFF;0|FPD;DPDMA;FD4C0000;FD4CFFFF;0|FPD;DDR_XMPU5_CFG;FD05000
   [get_bd_pins ps8_0_axi_periph/M06_ARESETN] \
   [get_bd_pins ps8_0_axi_periph/ARESETN] \
   [get_bd_pins ps8_0_axi_periph/M07_ARESETN] \
-  [get_bd_pins PRNG_PULSE_GEN/aresetn] \
   [get_bd_pins ps8_0_axi_periph/M08_ARESETN] \
   [get_bd_pins ps8_0_axi_periph/M09_ARESETN] \
   [get_bd_pins gpio_control/s_axi_aresetn] \
   [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] \
   [get_bd_pins axi_bram_ctrl_1/s_axi_aresetn]
+  connect_bd_net -net rnpg_pulse_gen_0_dac_out  [get_bd_pins rnpg_pulse_gen_0/dac_out] \
+  [get_bd_pins dacMux/x4]
+  connect_bd_net -net rnpg_pulse_gen_0_ramp_test  [get_bd_pins rnpg_pulse_gen_0/ramp_test] \
+  [get_bd_pins dacMux/x2]
   connect_bd_net -net s_axis_tdata_0_1  [get_bd_ports adc_data] \
   [get_bd_pins CDC/adc_data] \
   [get_bd_pins dacMux/x1]
   connect_bd_net -net target_events_1  [get_bd_pins gpio_control/gpio2_io_o1] \
-  [get_bd_pins PRNG_PULSE_GEN/target_events]
+  [get_bd_pins rnpg_pulse_gen_0/target_ev]
   connect_bd_net -net util_vector_logic_0_Res  [get_bd_pins util_vector_logic_0/Res] \
   [get_bd_ports led_0]
   connect_bd_net -net xlconstant_1_dout1  [get_bd_pins led_blink_0/led] \
@@ -2098,7 +1722,8 @@ Port;FD4A0000;FD4AFFFF;0|FPD;DPDMA;FD4C0000;FD4CFFFF;0|FPD;DDR_XMPU5_CFG;FD05000
   [get_bd_pins clk_wiz_0/resetn] \
   [get_bd_pins proc_sys_reset_0/ext_reset_in] \
   [get_bd_pins proc_sys_reset_1/ext_reset_in] \
-  [get_bd_pins rst_ps8_0_99M/ext_reset_in]
+  [get_bd_pins rst_ps8_0_99M/ext_reset_in] \
+  [get_bd_pins proc_sys_reset_2/ext_reset_in]
   connect_bd_net -net zynq_proc_sys_pl_clk0  [get_bd_pins zynq_ultra_ps_e_0/pl_clk0] \
   [get_bd_pins clk_wiz_0/clk_in1] \
   [get_bd_pins rst_ps8_0_99M/slowest_sync_clk]

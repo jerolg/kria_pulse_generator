@@ -4,9 +4,9 @@
       "boundary_crc": "0xB3B736EA8DC30EBC",
       "device": "xck26-sfvc784-2LV-c",
       "name": "pulse_gen_bd",
-      "pfm_name": "xilinx:kr260_som:daq_dma:0.0",
+      "pfm_name": "gicm_udea:kr260_som:pulse_gen:1.0",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
-      "synth_flow_mode": "Hierarchical",
+      "synth_flow_mode": "None",
       "tool_version": "2024.2",
       "validated": "true"
     },
@@ -5265,7 +5265,7 @@
       },
       "rnpg_pulse_gen_0": {
         "vlnv": "gicm_udea:user:rnpg_pulse_gen:1.0",
-        "ip_revision": "3",
+        "ip_revision": "4",
         "xci_name": "pulse_gen_bd_rnpg_pulse_gen_0_0",
         "xci_path": "ip\\pulse_gen_bd_rnpg_pulse_gen_0_0\\pulse_gen_bd_rnpg_pulse_gen_0_0.xci",
         "inst_hier_path": "rnpg_pulse_gen_0"

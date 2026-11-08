@@ -298,7 +298,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>bd1159f4</spirit:value>
+            <spirit:value>33c4eb70</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -323,7 +323,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>526dda86</spirit:value>
+            <spirit:value>d23d90d2</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -851,7 +851,7 @@
       <spirit:file>
         <spirit:name>src/pulse_gen_ip.v</spirit:name>
         <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_e508b2b7</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_426294f3</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -1064,6 +1064,7 @@
     <xilinx:coreExtensions>
       <xilinx:supportedFamilies>
         <xilinx:family xilinx:lifeCycle="Pre-Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Pre-Production">zynq</xilinx:family>
       </xilinx:supportedFamilies>
       <xilinx:taxonomies>
         <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
@@ -1072,8 +1073,8 @@
       <xilinx:definitionSource>IPI</xilinx:definitionSource>
       <xilinx:vendorDisplayName>Grupo de Instrumentacion Cientifica y Microelectronica</xilinx:vendorDisplayName>
       <xilinx:vendorURL>https://github.com/GICM-UdeA</xilinx:vendorURL>
-      <xilinx:coreRevision>3</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2026-07-14T23:02:18Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>4</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2026-09-25T18:42:58Z</xilinx:coreCreationDateTime>
       <xilinx:configElementInfos>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.CHA_BRAM.MASTER_TYPE" xilinx:valueSource="user"/>
         <xilinx:configElementInfo xilinx:referenceId="BUSIFPARAM_VALUE.CHA_BRAM.MEM_SIZE" xilinx:valueSource="user"/>
@@ -1086,7 +1087,7 @@
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2024.2</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="1bd3d542"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="ff8b1d23"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="890fb5c4"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="f99a6b4a"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="5f3ac450"/>
     </xilinx:packagingInfo>
