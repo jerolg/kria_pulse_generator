@@ -4,4 +4,4 @@
 [![Versión](https://img.shields.io/badge/PYNQ-3.0.1-orange)](https://github.com/Xilinx/Kria-PYNQ)
 ![Python](https://img.shields.io/badge/Python-3.10.12-3776AB?logo=python&logoColor=FFD43B)
 
-Xilinx Zynq SoC Platforms based implementation of a configurable pulse generator for simulating nuclear detector events using PYNQ Framework
+Xilinx Zynq SoC Platforms based implementation of a configurable pulse generator for simulating nuclear detector events using PYNQ Framework and Embedded Linux
