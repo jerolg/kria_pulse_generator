@@ -7,8 +7,7 @@
       "pfm_name": "gicm_udea:kr260_som:pulse_gen:1.0",
       "rev_ctrl_bd_flag": "RevCtrlBdOff",
       "synth_flow_mode": "None",
-      "tool_version": "2024.2",
-      "validated": "true"
+      "tool_version": "2024.2"
     },
     "design_tree": {
       "CDC": {
@@ -68,55 +67,11 @@
       },
       "adc_clk": {
         "type": "clk",
-        "direction": "O",
-        "parameters": {
-          "CLK_DOMAIN": {
-            "value": "pulse_gen_bd_clk_wiz_0_0_clk_out1",
-            "value_src": "ip_prop"
-          },
-          "FREQ_HZ": {
-            "value": "49999500",
-            "value_src": "ip_prop"
-          },
-          "FREQ_TOLERANCE_HZ": {
-            "value": "0",
-            "value_src": "default"
-          },
-          "INSERT_VIP": {
-            "value": "0",
-            "value_src": "default"
-          },
-          "PHASE": {
-            "value": "0.0",
-            "value_src": "ip_prop"
-          }
-        }
+        "direction": "O"
       },
       "dac_clk": {
         "type": "clk",
-        "direction": "O",
-        "parameters": {
-          "CLK_DOMAIN": {
-            "value": "pulse_gen_bd_clk_wiz_0_0_clk_out1",
-            "value_src": "ip_prop"
-          },
-          "FREQ_HZ": {
-            "value": "49999500",
-            "value_src": "ip_prop"
-          },
-          "FREQ_TOLERANCE_HZ": {
-            "value": "0",
-            "value_src": "default"
-          },
-          "INSERT_VIP": {
-            "value": "0",
-            "value_src": "default"
-          },
-          "PHASE": {
-            "value": "0.0",
-            "value_src": "ip_prop"
-          }
-        }
+        "direction": "O"
       },
       "dac_data": {
         "direction": "O",
@@ -126,17 +81,7 @@
       "led_0": {
         "direction": "O",
         "left": "0",
-        "right": "0",
-        "parameters": {
-          "PortType": {
-            "value": "undef",
-            "value_src": "ip_prop"
-          },
-          "PortType.PROP_SRC": {
-            "value": "false",
-            "value_src": "ip_prop"
-          }
-        }
+        "right": "0"
       },
       "adc_data": {
         "direction": "I",
@@ -146,17 +91,7 @@
       "led_1": {
         "direction": "O",
         "left": "0",
-        "right": "0",
-        "parameters": {
-          "PortType": {
-            "value": "undef",
-            "value_src": "ip_prop"
-          },
-          "PortType.PROP_SRC": {
-            "value": "false",
-            "value_src": "ip_prop"
-          }
-        }
+        "right": "0"
       }
     },
     "components": {
@@ -203,7 +138,7 @@
             "vlnv": "xilinx.com:ip:fifo_generator:13.2",
             "ip_revision": "11",
             "xci_name": "pulse_gen_bd_ADC_CDC_0",
-            "xci_path": "ip\\pulse_gen_bd_ADC_CDC_0\\pulse_gen_bd_ADC_CDC_0.xci",
+            "xci_path": "ip/pulse_gen_bd_ADC_CDC_0/pulse_gen_bd_ADC_CDC_0.xci",
             "inst_hier_path": "CDC/ADC_CDC",
             "parameters": {
               "Clock_Type_AXI": {
@@ -245,7 +180,7 @@
             "vlnv": "xilinx.com:ip:xlslice:1.0",
             "ip_revision": "4",
             "xci_name": "pulse_gen_bd_xlslice_1_0",
-            "xci_path": "ip\\pulse_gen_bd_xlslice_1_0\\pulse_gen_bd_xlslice_1_0.xci",
+            "xci_path": "ip/pulse_gen_bd_xlslice_1_0/pulse_gen_bd_xlslice_1_0.xci",
             "inst_hier_path": "CDC/xlslice_1",
             "parameters": {
               "DIN_FROM": {
@@ -263,7 +198,7 @@
             "vlnv": "xilinx.com:ip:xlslice:1.0",
             "ip_revision": "4",
             "xci_name": "pulse_gen_bd_xlslice_2_0",
-            "xci_path": "ip\\pulse_gen_bd_xlslice_2_0\\pulse_gen_bd_xlslice_2_0.xci",
+            "xci_path": "ip/pulse_gen_bd_xlslice_2_0/pulse_gen_bd_xlslice_2_0.xci",
             "inst_hier_path": "CDC/xlslice_2",
             "parameters": {
               "DIN_FROM": {
@@ -281,7 +216,7 @@
             "vlnv": "xilinx.com:ip:fifo_generator:13.2",
             "ip_revision": "11",
             "xci_name": "pulse_gen_bd_DAC_CDC_0",
-            "xci_path": "ip\\pulse_gen_bd_DAC_CDC_0\\pulse_gen_bd_DAC_CDC_0.xci",
+            "xci_path": "ip/pulse_gen_bd_DAC_CDC_0/pulse_gen_bd_DAC_CDC_0.xci",
             "inst_hier_path": "CDC/DAC_CDC",
             "parameters": {
               "Clock_Type_AXI": {
@@ -323,7 +258,7 @@
             "vlnv": "xilinx.com:ip:xlconstant:1.1",
             "ip_revision": "9",
             "xci_name": "pulse_gen_bd_xlconstant_0_0",
-            "xci_path": "ip\\pulse_gen_bd_xlconstant_0_0\\pulse_gen_bd_xlconstant_0_0.xci",
+            "xci_path": "ip/pulse_gen_bd_xlconstant_0_0/pulse_gen_bd_xlconstant_0_0.xci",
             "inst_hier_path": "CDC/xlconstant_0"
           }
         },
@@ -405,7 +340,7 @@
         "vlnv": "xilinx.com:ip:xlslice:1.0",
         "ip_revision": "4",
         "xci_name": "pulse_gen_bd_xlslice_0_0",
-        "xci_path": "ip\\pulse_gen_bd_xlslice_0_0\\pulse_gen_bd_xlslice_0_0.xci",
+        "xci_path": "ip/pulse_gen_bd_xlslice_0_0/pulse_gen_bd_xlslice_0_0.xci",
         "inst_hier_path": "xlslice_0",
         "parameters": {
           "DIN_FROM": {
@@ -423,7 +358,7 @@
         "vlnv": "xilinx.com:module_ref:dacMux:1.0",
         "ip_revision": "1",
         "xci_name": "pulse_gen_bd_dacMux_0",
-        "xci_path": "ip\\pulse_gen_bd_dacMux_0\\pulse_gen_bd_dacMux_0.xci",
+        "xci_path": "ip/pulse_gen_bd_dacMux_0/pulse_gen_bd_dacMux_0.xci",
         "inst_hier_path": "dacMux",
         "reference_info": {
           "ref_type": "hdl",
@@ -472,7 +407,7 @@
         "vlnv": "xilinx.com:ip:clk_wiz:6.0",
         "ip_revision": "15",
         "xci_name": "pulse_gen_bd_clk_wiz_0_0",
-        "xci_path": "ip\\pulse_gen_bd_clk_wiz_0_0\\pulse_gen_bd_clk_wiz_0_0.xci",
+        "xci_path": "ip/pulse_gen_bd_clk_wiz_0_0/pulse_gen_bd_clk_wiz_0_0.xci",
         "inst_hier_path": "clk_wiz_0",
         "parameters": {
           "CLKOUT1_JITTER": {
@@ -544,7 +479,7 @@
         "vlnv": "xilinx.com:ip:util_vector_logic:2.0",
         "ip_revision": "4",
         "xci_name": "pulse_gen_bd_util_vector_logic_0_0",
-        "xci_path": "ip\\pulse_gen_bd_util_vector_logic_0_0\\pulse_gen_bd_util_vector_logic_0_0.xci",
+        "xci_path": "ip/pulse_gen_bd_util_vector_logic_0_0/pulse_gen_bd_util_vector_logic_0_0.xci",
         "inst_hier_path": "util_vector_logic_0",
         "parameters": {
           "C_OPERATION": {
@@ -559,7 +494,7 @@
         "vlnv": "xilinx.com:module_ref:led_blink:1.0",
         "ip_revision": "1",
         "xci_name": "pulse_gen_bd_led_blink_0_0",
-        "xci_path": "ip\\pulse_gen_bd_led_blink_0_0\\pulse_gen_bd_led_blink_0_0.xci",
+        "xci_path": "ip/pulse_gen_bd_led_blink_0_0/pulse_gen_bd_led_blink_0_0.xci",
         "inst_hier_path": "led_blink_0",
         "reference_info": {
           "ref_type": "hdl",
@@ -604,7 +539,7 @@
         "vlnv": "xilinx.com:ip:zynq_ultra_ps_e:3.5",
         "ip_revision": "5",
         "xci_name": "pulse_gen_bd_zynq_ultra_ps_e_0_0",
-        "xci_path": "ip\\pulse_gen_bd_zynq_ultra_ps_e_0_0\\pulse_gen_bd_zynq_ultra_ps_e_0_0.xci",
+        "xci_path": "ip/pulse_gen_bd_zynq_ultra_ps_e_0_0/pulse_gen_bd_zynq_ultra_ps_e_0_0.xci",
         "inst_hier_path": "zynq_ultra_ps_e_0",
         "parameters": {
           "CAN0_BOARD_INTERFACE": {
@@ -3663,26 +3598,26 @@
         "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
         "ip_revision": "16",
         "xci_name": "pulse_gen_bd_proc_sys_reset_1_0",
-        "xci_path": "ip\\pulse_gen_bd_proc_sys_reset_1_0\\pulse_gen_bd_proc_sys_reset_1_0.xci",
+        "xci_path": "ip/pulse_gen_bd_proc_sys_reset_1_0/pulse_gen_bd_proc_sys_reset_1_0.xci",
         "inst_hier_path": "proc_sys_reset_1"
       },
       "rst_ps8_0_99M": {
         "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
         "ip_revision": "16",
         "xci_name": "pulse_gen_bd_rst_ps8_0_99M_0",
-        "xci_path": "ip\\pulse_gen_bd_rst_ps8_0_99M_0\\pulse_gen_bd_rst_ps8_0_99M_0.xci",
+        "xci_path": "ip/pulse_gen_bd_rst_ps8_0_99M_0/pulse_gen_bd_rst_ps8_0_99M_0.xci",
         "inst_hier_path": "rst_ps8_0_99M"
       },
       "proc_sys_reset_0": {
         "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
         "ip_revision": "16",
         "xci_name": "pulse_gen_bd_proc_sys_reset_0_0",
-        "xci_path": "ip\\pulse_gen_bd_proc_sys_reset_0_0\\pulse_gen_bd_proc_sys_reset_0_0.xci",
+        "xci_path": "ip/pulse_gen_bd_proc_sys_reset_0_0/pulse_gen_bd_proc_sys_reset_0_0.xci",
         "inst_hier_path": "proc_sys_reset_0"
       },
       "ps8_0_axi_periph": {
         "vlnv": "xilinx.com:ip:axi_interconnect:2.1",
-        "xci_path": "ip\\pulse_gen_bd_ps8_0_axi_periph_0\\pulse_gen_bd_ps8_0_axi_periph_0.xci",
+        "xci_path": "ip/pulse_gen_bd_ps8_0_axi_periph_0/pulse_gen_bd_ps8_0_axi_periph_0.xci",
         "inst_hier_path": "ps8_0_axi_periph",
         "xci_name": "pulse_gen_bd_ps8_0_axi_periph_0",
         "parameters": {
@@ -3943,7 +3878,7 @@
             "vlnv": "xilinx.com:ip:axi_crossbar:2.1",
             "ip_revision": "34",
             "xci_name": "pulse_gen_bd_ps8_0_axi_periph_imp_xbar_0",
-            "xci_path": "ip\\pulse_gen_bd_ps8_0_axi_periph_imp_xbar_0\\pulse_gen_bd_ps8_0_axi_periph_imp_xbar_0.xci",
+            "xci_path": "ip/pulse_gen_bd_ps8_0_axi_periph_imp_xbar_0/pulse_gen_bd_ps8_0_axi_periph_imp_xbar_0.xci",
             "inst_hier_path": "ps8_0_axi_periph/xbar",
             "parameters": {
               "NUM_MI": {
@@ -4139,7 +4074,7 @@
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
                 "ip_revision": "33",
                 "xci_name": "pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_0",
-                "xci_path": "ip\\pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_0\\pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_0.xci",
+                "xci_path": "ip/pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_0/pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_0.xci",
                 "inst_hier_path": "ps8_0_axi_periph/m01_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
@@ -4521,7 +4456,7 @@
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
                 "ip_revision": "33",
                 "xci_name": "pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_1",
-                "xci_path": "ip\\pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_1\\pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_1.xci",
+                "xci_path": "ip/pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_1/pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_1.xci",
                 "inst_hier_path": "ps8_0_axi_periph/m07_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
@@ -4623,7 +4558,7 @@
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
                 "ip_revision": "33",
                 "xci_name": "pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_2",
-                "xci_path": "ip\\pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_2\\pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_2.xci",
+                "xci_path": "ip/pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_2/pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_2.xci",
                 "inst_hier_path": "ps8_0_axi_periph/m08_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
@@ -4725,7 +4660,7 @@
                 "vlnv": "xilinx.com:ip:axi_protocol_converter:2.1",
                 "ip_revision": "33",
                 "xci_name": "pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_3",
-                "xci_path": "ip\\pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_3\\pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_3.xci",
+                "xci_path": "ip/pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_3/pulse_gen_bd_ps8_0_axi_periph_imp_auto_pc_3.xci",
                 "inst_hier_path": "ps8_0_axi_periph/m09_couplers/auto_pc",
                 "parameters": {
                   "MI_PROTOCOL": {
@@ -5047,7 +4982,7 @@
             "vlnv": "xilinx.com:ip:axi_gpio:2.0",
             "ip_revision": "35",
             "xci_name": "pulse_gen_bd_axi_gpio_0_0",
-            "xci_path": "ip\\pulse_gen_bd_axi_gpio_0_0\\pulse_gen_bd_axi_gpio_0_0.xci",
+            "xci_path": "ip/pulse_gen_bd_axi_gpio_0_0/pulse_gen_bd_axi_gpio_0_0.xci",
             "inst_hier_path": "gpio_control/axi_gpio_0",
             "parameters": {
               "C_ALL_OUTPUTS": {
@@ -5071,7 +5006,7 @@
             "vlnv": "xilinx.com:ip:axi_gpio:2.0",
             "ip_revision": "35",
             "xci_name": "pulse_gen_bd_axi_gpio_2_0",
-            "xci_path": "ip\\pulse_gen_bd_axi_gpio_2_0\\pulse_gen_bd_axi_gpio_2_0.xci",
+            "xci_path": "ip/pulse_gen_bd_axi_gpio_2_0/pulse_gen_bd_axi_gpio_2_0.xci",
             "inst_hier_path": "gpio_control/axi_gpio_2",
             "parameters": {
               "C_ALL_INPUTS_2": {
@@ -5092,7 +5027,7 @@
             "vlnv": "xilinx.com:ip:axi_gpio:2.0",
             "ip_revision": "35",
             "xci_name": "pulse_gen_bd_axi_gpio_3_0",
-            "xci_path": "ip\\pulse_gen_bd_axi_gpio_3_0\\pulse_gen_bd_axi_gpio_3_0.xci",
+            "xci_path": "ip/pulse_gen_bd_axi_gpio_3_0/pulse_gen_bd_axi_gpio_3_0.xci",
             "inst_hier_path": "gpio_control/axi_gpio_3",
             "parameters": {
               "C_ALL_OUTPUTS": {
@@ -5116,7 +5051,7 @@
             "vlnv": "xilinx.com:ip:axi_gpio:2.0",
             "ip_revision": "35",
             "xci_name": "pulse_gen_bd_axi_gpio_1_0",
-            "xci_path": "ip\\pulse_gen_bd_axi_gpio_1_0\\pulse_gen_bd_axi_gpio_1_0.xci",
+            "xci_path": "ip/pulse_gen_bd_axi_gpio_1_0/pulse_gen_bd_axi_gpio_1_0.xci",
             "inst_hier_path": "gpio_control/axi_gpio_1",
             "parameters": {
               "C_ALL_OUTPUTS": {
@@ -5236,7 +5171,7 @@
         "vlnv": "xilinx.com:ip:axi_bram_ctrl:4.1",
         "ip_revision": "11",
         "xci_name": "pulse_gen_bd_axi_bram_ctrl_0_0",
-        "xci_path": "ip\\pulse_gen_bd_axi_bram_ctrl_0_0\\pulse_gen_bd_axi_bram_ctrl_0_0.xci",
+        "xci_path": "ip/pulse_gen_bd_axi_bram_ctrl_0_0/pulse_gen_bd_axi_bram_ctrl_0_0.xci",
         "inst_hier_path": "axi_bram_ctrl_0",
         "parameters": {
           "SINGLE_PORT_BRAM": {
@@ -5248,7 +5183,7 @@
         "vlnv": "xilinx.com:ip:axi_bram_ctrl:4.1",
         "ip_revision": "11",
         "xci_name": "pulse_gen_bd_axi_bram_ctrl_1_0",
-        "xci_path": "ip\\pulse_gen_bd_axi_bram_ctrl_1_0\\pulse_gen_bd_axi_bram_ctrl_1_0.xci",
+        "xci_path": "ip/pulse_gen_bd_axi_bram_ctrl_1_0/pulse_gen_bd_axi_bram_ctrl_1_0.xci",
         "inst_hier_path": "axi_bram_ctrl_1",
         "parameters": {
           "SINGLE_PORT_BRAM": {
@@ -5260,14 +5195,14 @@
         "vlnv": "xilinx.com:ip:proc_sys_reset:5.0",
         "ip_revision": "16",
         "xci_name": "pulse_gen_bd_proc_sys_reset_2_0",
-        "xci_path": "ip\\pulse_gen_bd_proc_sys_reset_2_0\\pulse_gen_bd_proc_sys_reset_2_0.xci",
+        "xci_path": "ip/pulse_gen_bd_proc_sys_reset_2_0/pulse_gen_bd_proc_sys_reset_2_0.xci",
         "inst_hier_path": "proc_sys_reset_2"
       },
       "rnpg_pulse_gen_0": {
         "vlnv": "gicm_udea:user:rnpg_pulse_gen:1.0",
-        "ip_revision": "4",
+        "ip_revision": "7",
         "xci_name": "pulse_gen_bd_rnpg_pulse_gen_0_0",
-        "xci_path": "ip\\pulse_gen_bd_rnpg_pulse_gen_0_0\\pulse_gen_bd_rnpg_pulse_gen_0_0.xci",
+        "xci_path": "ip/pulse_gen_bd_rnpg_pulse_gen_0_0/pulse_gen_bd_rnpg_pulse_gen_0_0.xci",
         "inst_hier_path": "rnpg_pulse_gen_0"
       }
     },

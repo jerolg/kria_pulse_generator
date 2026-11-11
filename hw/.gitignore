@@ -19,8 +19,9 @@
 # - only .xci files are committed.
 #
 
-BD/*/*
-!BD/*/*.bd*
+bd/*/*
+!bd/*/*.bd*
+!bd/*/hdl
 
 ## OS
 .DS_Store
